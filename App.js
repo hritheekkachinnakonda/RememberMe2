@@ -8,11 +8,11 @@ const App = () => {
         setActiveButton(buttonName);
     };
 
-    const getButtonStyle = (buttonName) => {
+    const getButtonImage = (buttonName) => {
         if (buttonName === activeButton) {
-            return [styles.menuButton, styles.activeButton];
+            return require('./assets/yellowButtonImage.png'); // Image for the active (yellow) state
         }
-        return styles.menuButton;
+        return require('./assets/greyButtonImage.png'); // Image for the inactive (grey) state
     };
 
     return (
@@ -25,51 +25,52 @@ const App = () => {
             {/* Bottom Menu Bar */}
             <View style={styles.bottomMenu}>
                 <TouchableOpacity
-                    style={getButtonStyle('Charter')}
+                    style={styles.menuButton}
                     onPress={() => handlePress('Charter')}
                 >
                     <Image
-                        source={require('./assets/charter.png')} // Replace with your image path
+                        source={getButtonImage('Charter')}
                         style={styles.buttonImage}
                     />
                 </TouchableOpacity>
 
+                {/* Plus button stays purple */}
                 <TouchableOpacity
                     style={styles.plusButton}
                     onPress={() => handlePress('Plus')}
                 >
                     <Image
-                        source={require('./assets/plus.png')} // Replace with your image path
+                        source={require('./assets/purpleplus.png')} // Image for the purple plus button
                         style={styles.buttonImage}
                     />
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={getButtonStyle('Chapter')}
+                    style={styles.menuButton}
                     onPress={() => handlePress('Chapter')}
                 >
                     <Image
-                        source={require('./assets/chapter.png')} // Replace with your image path
+                        source={getButtonImage('Chapter')}
                         style={styles.buttonImage}
                     />
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={getButtonStyle('Capture')}
+                    style={styles.menuButton}
                     onPress={() => handlePress('Capture')}
                 >
                     <Image
-                        source={require('./assets/capture.png')} // Replace with your image path
+                        source={getButtonImage('Capture')}
                         style={styles.buttonImage}
                     />
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={getButtonStyle('Connect')}
+                    style={styles.menuButton}
                     onPress={() => handlePress('Connect')}
                 >
                     <Image
-                        source={require('./assets/connect.png')} // Replace with your image path
+                        source={getButtonImage('Connect')}
                         style={styles.buttonImage}
                     />
                 </TouchableOpacity>
@@ -97,16 +98,10 @@ const styles = StyleSheet.create({
         paddingBottom: 30,
     },
     menuButton: {
-        backgroundColor: '#808080', // Grey color initially
-        padding: 10,
-        borderRadius: 20,
         width: 80,
         height: 80,
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    activeButton: {
-        backgroundColor: '#FFD700', // Yellow when active
     },
     plusButton: {
         backgroundColor: '#800080', // Purple for the plus button
