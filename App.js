@@ -9,10 +9,29 @@ const App = () => {
     };
 
     const getButtonImage = (buttonName) => {
-        if (buttonName === activeButton) {
-            return require('./assets/yellowButtonImage.png'); // Image for the active (yellow) state
+        // Return different images for each button in both active and inactive states
+        switch (buttonName) {
+            case 'Charter':
+                return activeButton === 'Charter'
+                    ? require('./assets/yellowCharter.png') // Active (yellow) state image
+                    : require('./assets/greyCharter.png');  // Inactive (grey) state image
+            case 'Chapter':
+                return activeButton === 'Chapter'
+                    ? require('./assets/yellowChapter.png')
+                    : require('./assets/greyChapter.png');
+            case 'Capture':
+                return activeButton === 'Capture'
+                    ? require('./assets/yellowCapture.png')
+                    : require('./assets/greyCapture.png');
+            case 'Connect':
+                return activeButton === 'Connect'
+                    ? require('./assets/yellowConnect.png')
+                    : require('./assets/greyConnect.png');
+            case 'Plus':
+                return require('./assets/purpleplus.png'); // Plus button stays purple
+            default:
+                return null;
         }
-        return require('./assets/greyButtonImage.png'); // Image for the inactive (grey) state
     };
 
     return (
@@ -34,13 +53,12 @@ const App = () => {
                     />
                 </TouchableOpacity>
 
-                {/* Plus button stays purple */}
                 <TouchableOpacity
                     style={styles.plusButton}
                     onPress={() => handlePress('Plus')}
                 >
                     <Image
-                        source={require('./assets/purpleplus.png')} // Image for the purple plus button
+                        source={getButtonImage('Plus')}
                         style={styles.buttonImage}
                     />
                 </TouchableOpacity>
@@ -104,9 +122,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     plusButton: {
-        backgroundColor: '#800080', // Purple for the plus button
-        padding: 15,
-        borderRadius: 50,
         width: 80,
         height: 80,
         justifyContent: 'center',
