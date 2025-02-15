@@ -1,34 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 const App = () => {
     const [activeButton, setActiveButton] = useState(null);
+    const [isSplashVisible, setIsSplashVisible] = useState(true); // For splash screen
+
+    useEffect(() => {
+        // Hide splash screen after 3 seconds
+        setTimeout(() => {
+            setIsSplashVisible(false);
+        }, 3000); // 3 seconds delay for splash screen
+    }, []);
 
     const handlePress = (buttonName) => {
         setActiveButton(buttonName);
     };
 
     const getButtonImage = (buttonName) => {
-        // Return different images for each button in both active and inactive states
         switch (buttonName) {
             case 'Charter':
                 return activeButton === 'Charter'
-                    ? require('./assets/yellowCharter.png') // Active (yellow) state image
-                    : require('./assets/greyCharter.png');  // Inactive (grey) state image
+                    ? require('./assets/charteryellow.png')
+                    : require('./assets/chartergrey.png');
             case 'Chapter':
                 return activeButton === 'Chapter'
-                    ? require('./assets/yellowChapter.png')
-                    : require('./assets/greyChapter.png');
+                    ? require('./assets/chapteryellow.png')
+                    : require('./assets/chaptergrey.png');
             case 'Capture':
                 return activeButton === 'Capture'
-                    ? require('./assets/yellowCapture.png')
-                    : require('./assets/greyCapture.png');
+                    ? require('./assets/captureyellow.png')
+                    : require('./assets/capturegrey.png');
             case 'Connect':
                 return activeButton === 'Connect'
-                    ? require('./assets/yellowConnect.png')
-                    : require('./assets/greyConnect.png');
+                    ? require('./assets/connectyellow.png')
+                    : require('./assets/connectgrey.png');
             case 'Plus':
-                return require('./assets/purpleplus.png'); // Plus button stays purple
+                return require('./assets/purpleplus.png');
             default:
                 return null;
         }
@@ -36,63 +43,78 @@ const App = () => {
 
     return (
         <View style={styles.container}>
-            {/* Main Content */}
-            <View style={styles.mainContent}>
-                {/* Additional content */}
-            </View>
-
-            {/* Bottom Menu Bar */}
-            <View style={styles.bottomMenu}>
-                <TouchableOpacity
-                    style={styles.menuButton}
-                    onPress={() => handlePress('Charter')}
-                >
+            {/* Display Splash Screen */}
+            {isSplashVisible ? (
+                <View style={styles.splashContainer}>
                     <Image
-                        source={getButtonImage('Charter')}
-                        style={styles.buttonImage}
+                        source={require('./assets/Logo.png')} // Replace with your actual logo path
+                        style={styles.logoImage}
                     />
-                </TouchableOpacity>
+                </View>
+            ) : (
+                <View style={styles.mainContent}>
+                    {/* Main Content */}
+                    <View style={styles.mainContent}>
+                        {/* Additional content */}
+                    </View>
 
-                <TouchableOpacity
-                    style={styles.plusButton}
-                    onPress={() => handlePress('Plus')}
-                >
-                    <Image
-                        source={getButtonImage('Plus')}
-                        style={styles.buttonImage}
-                    />
-                </TouchableOpacity>
+                    {/* Horizontal Line above the menu bar */}
+                    <View style={styles.separator} />
 
-                <TouchableOpacity
-                    style={styles.menuButton}
-                    onPress={() => handlePress('Chapter')}
-                >
-                    <Image
-                        source={getButtonImage('Chapter')}
-                        style={styles.buttonImage}
-                    />
-                </TouchableOpacity>
+                    {/* Bottom Menu Bar */}
+                    <View style={styles.bottomMenu}>
+                        <TouchableOpacity
+                            style={styles.menuButton}
+                            onPress={() => handlePress('Charter')}
+                        >
+                            <Image
+                                source={getButtonImage('Charter')}
+                                style={styles.buttonImage}
+                            />
+                        </TouchableOpacity>
 
-                <TouchableOpacity
-                    style={styles.menuButton}
-                    onPress={() => handlePress('Capture')}
-                >
-                    <Image
-                        source={getButtonImage('Capture')}
-                        style={styles.buttonImage}
-                    />
-                </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.menuButton}
+                            onPress={() => handlePress('Chapter')}
+                        >
+                            <Image
+                                source={getButtonImage('Chapter')}
+                                style={styles.buttonImage}
+                            />
+                        </TouchableOpacity>
 
-                <TouchableOpacity
-                    style={styles.menuButton}
-                    onPress={() => handlePress('Connect')}
-                >
-                    <Image
-                        source={getButtonImage('Connect')}
-                        style={styles.buttonImage}
-                    />
-                </TouchableOpacity>
-            </View>
+                        <TouchableOpacity
+                            style={styles.plusButton}
+                            onPress={() => handlePress('Plus')}
+                        >
+                            <Image
+                                source={getButtonImage('Plus')}
+                                style={styles.plusButtonImage}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.menuButton}
+                            onPress={() => handlePress('Capture')}
+                        >
+                            <Image
+                                source={getButtonImage('Capture')}
+                                style={styles.buttonImage}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.menuButton}
+                            onPress={() => handlePress('Connect')}
+                        >
+                            <Image
+                                source={getButtonImage('Connect')}
+                                style={styles.buttonImage}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            )}
         </View>
     );
 };
@@ -100,36 +122,59 @@ const App = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'space-between', // Main content at the top, menu at the bottom
-        padding: 20,
+        justifyContent: 'space-between',
+        padding: 10,
+    },
+    splashContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,  // Take up the whole screen for splash
+    },
+    logoImage: {
+        width: 150,  // Adjust the logo size
+        height: 150, // Adjust the logo size
+        resizeMode: 'contain',
     },
     mainContent: {
         flex: 1,
-        justifyContent: 'center', // Centering main content
+        justifyContent: 'center',
         alignItems: 'center',
+    },
+    separator: {
+        height: 1,
+        backgroundColor: '#ccc', // Light grey color for the line
+        marginBottom: 10,  // Adjust space above the menu bar
     },
     bottomMenu: {
         flexDirection: 'row',
-        justifyContent: 'space-around', // Distribute buttons evenly
+        justifyContent: 'center', // Center all buttons within the menu
         alignItems: 'center',
+        width: '100%', // Ensures the menu takes the full width
         paddingHorizontal: 20,
-        paddingBottom: 30,
+        paddingBottom: 10,
     },
     menuButton: {
-        width: 80,
-        height: 80,
+        width: 77,
+        height: 77,
         justifyContent: 'center',
         alignItems: 'center',
     },
     plusButton: {
-        width: 80,
-        height: 80,
+        width: 90,
+        height: 90,
         justifyContent: 'center',
         alignItems: 'center',
+        marginHorizontal: 2,
+        marginBottom: 10,  // Aligns the Plus button better vertically with other buttons
     },
     buttonImage: {
-        width: 50, // Adjust size as needed
-        height: 50, // Adjust size as needed
+        width: 90,
+        height: 90,
+        resizeMode: 'contain',
+    },
+    plusButtonImage: {
+        width: 130,  // Larger image size for Plus button
+        height: 130,
         resizeMode: 'contain',
     },
 });
