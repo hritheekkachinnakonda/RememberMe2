@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#777',
         marginTop: 10,
+        alignContent: 'center',
     },
     separator: {
         height: 1,

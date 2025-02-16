@@ -7,6 +7,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Chapter from './Chapter';
 import Charter from './Charter';
+import Capture from './Capture';
+
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -24,6 +26,9 @@ const ConnectScreen = () => {
         }
         else if (buttonName === 'Connect') {
             navigation.navigate('Connect');
+        }
+        else if (buttonName === 'Capture') {
+            navigation.navigate('Capture');
         }
     };
     const getButtonImage = (buttonName) => {
@@ -107,6 +112,7 @@ const App = () => {
                 <Stack.Screen name="Chapter" component={Chapter} />
                 <Stack.Screen name="Charter" component={Charter} />
                 <Stack.Screen name="Connect" component={Connect} />
+                <Stack.Screen name="Capture" component={Capture} />
             </Stack.Navigator>
         </NavigationContainer>
     );

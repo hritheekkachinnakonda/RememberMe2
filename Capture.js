@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Ionicons } from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons'; // Adjust according to your environment
+import { useNavigation } from '@react-navigation/native';
 
 // Sample memory data
 const memories = [
@@ -15,17 +14,38 @@ const memories = [
 // Capture Screen
 const Capture = ({ navigation }) => {
     const [selectedMemory, setSelectedMemory] = useState(null);
+    const [activeButton, setActiveButton] = useState('Capture');
 
     const handleMemoryPress = (memory) => {
         setSelectedMemory(memory);
-        // Navigate to a screen to display the selected memory (you can implement a dedicated media screen here)
-        // For now, it's just logged.
         console.log('Selected memory:', memory);
+    };
+
+    const handlePress = (buttonName) => {
+        setActiveButton(buttonName);
+        navigation.navigate(buttonName);
+    };
+
+    const getButtonImage = (buttonName) => {
+        switch (buttonName) {
+            case 'Charter':
+                return activeButton === 'Charter' ? require('./assets/charteryellow.png') : require('./assets/chartergrey.png');
+            case 'Chapter':
+                return activeButton === 'Chapter' ? require('./assets/chapteryellow.png') : require('./assets/chaptergrey.png');
+            case 'Capture':
+                return activeButton === 'Capture' ? require('./assets/captureyellow.png') : require('./assets/capturegrey.png');
+            case 'Connect':
+                return activeButton === 'Connect' ? require('./assets/connectyellow.png') : require('./assets/connectgrey.png');
+            case 'Plus':
+                return require('./assets/purpleplus.png');
+            default:
+                return null;
+        }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Capture Memories</Text>
+            <Text style={styles.header}>Capture</Text>
             <FlatList
                 data={memories}
                 keyExtractor={(item) => item.id}
@@ -41,16 +61,39 @@ const Capture = ({ navigation }) => {
                     </TouchableOpacity>
                 )}
             />
+
+            {/* Bottom Menu Bar */}
+            <View style={styles.bottomMenu}>
+                <TouchableOpacity style={styles.menuButton} onPress={() => handlePress('Charter')}>
+                    <Image source={getButtonImage('Charter')} style={styles.buttonImage} />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.menuButton} onPress={() => handlePress('Chapter')}>
+                    <Image source={getButtonImage('Chapter')} style={styles.buttonImage} />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.plusButton} onPress={() => handlePress('Plus')}>
+                    <Image source={getButtonImage('Plus')} style={styles.plusButtonImage} />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.menuButton} onPress={() => handlePress('Capture')}>
+                    <Image source={getButtonImage('Capture')} style={styles.buttonImage} />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.menuButton} onPress={() => handlePress('Connect')}>
+                    <Image source={getButtonImage('Connect')} style={styles.buttonImage} />
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
 
-// Menu bar styles
+// Styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        padding: 20,
+        padding: 30,
         backgroundColor: "#f5f5f5",
     },
     header: {
@@ -58,6 +101,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginBottom: 20,
         textAlign: "center",
+        marginTop: '35',
     },
     memoryCard: {
         backgroundColor: "#ffffff",
@@ -83,7 +127,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
     },
-    // Bottom menu styles
     bottomMenu: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -118,17 +161,4 @@ const styles = StyleSheet.create({
     },
 });
 
-// Navigation setup
-const Stack = createStackNavigator();
-const App = () => {
-    return (
-        <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Capture" component={Capture} />
-                {/* Other screens like Charter, Connect can be added here */}
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
-};
-
-export default App;
+export default Capture;
