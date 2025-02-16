@@ -1,7 +1,43 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const ChapterScreen = () => {
+const Chapter = () => {
+    const navigation = useNavigation();
+    const [activeButton, setActiveButton] = useState(null);
+
+    const handlePress = (buttonName) => {
+        setActiveButton(buttonName);
+        if (buttonName === 'Home') {
+            navigation.navigate('Home');
+        }
+    };
+
+    const getButtonImage = (buttonName) => {
+        switch (buttonName) {
+            case 'Charter':
+                return activeButton === 'Charter'
+                    ? require('./assets/charteryellow.png')
+                    : require('./assets/chartergrey.png');
+            case 'Chapter':
+                return activeButton === 'Chapter'
+                    ? require('./assets/chapteryellow.png')
+                    : require('./assets/chaptergrey.png');
+            case 'Capture':
+                return activeButton === 'Capture'
+                    ? require('./assets/captureyellow.png')
+                    : require('./assets/capturegrey.png');
+            case 'Connect':
+                return activeButton === 'Connect'
+                    ? require('./assets/connectyellow.png')
+                    : require('./assets/connectgrey.png');
+            case 'Plus':
+                return require('./assets/purpleplus.png');
+            default:
+                return null;
+        }
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Chapter</Text>
@@ -25,6 +61,29 @@ const ChapterScreen = () => {
                     </Text>
                 </View>
             </ScrollView>
+
+            {/* Bottom Menu Bar */}
+            <View style={styles.bottomMenu}>
+                <TouchableOpacity style={styles.menuButton} onPress={() => handlePress('Charter')}>
+                    <Image source={getButtonImage('Charter')} style={styles.buttonImage} />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.menuButton} onPress={() => handlePress('Chapter')}>
+                    <Image source={getButtonImage('Chapter')} style={styles.buttonImage} />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.plusButton} onPress={() => handlePress('Plus')}>
+                    <Image source={getButtonImage('Plus')} style={styles.plusButtonImage} />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.menuButton} onPress={() => handlePress('Capture')}>
+                    <Image source={getButtonImage('Capture')} style={styles.buttonImage} />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.menuButton} onPress={() => handlePress('Connect')}>
+                    <Image source={getButtonImage('Connect')} style={styles.buttonImage} />
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -61,6 +120,38 @@ const styles = StyleSheet.create({
         color: '#555',
         lineHeight: 24,
     },
+    bottomMenu: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        paddingHorizontal: 20,
+        paddingBottom: 10,
+    },
+    menuButton: {
+        width: 77,
+        height: 77,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    plusButton: {
+        width: 90,
+        height: 90,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: 2,
+        marginBottom: 10,
+    },
+    buttonImage: {
+        width: 90,
+        height: 90,
+        resizeMode: 'contain',
+    },
+    plusButtonImage: {
+        width: 130,
+        height: 130,
+        resizeMode: 'contain',
+    },
 });
 
-export default ChapterScreen;
+export default Chapter;
