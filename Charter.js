@@ -1,43 +1,170 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Ionicons } from 'react-native-vector-icons';
+// Charter.js
+import React from 'react';
+import { View, Text, Button, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 
-// Sample memory data
-const memories = [
-    { id: '1', name: 'Wedding Day', mediaType: 'image', mediaUrl: require('./assets/wedding.jpg') },
-    { id: '2', name: 'Family Trip to Paris', mediaType: 'video', mediaUrl: require('./assets/paris_trip.mp4') },
-    { id: '3', name: 'Childhood Birthday', mediaType: 'image', mediaUrl: require('./assets/birthday.jpg') },
-    { id: '4', name: 'Summer Vacation', mediaType: 'video', mediaUrl: require('./assets/summer_vacation.mp4') },
-];
+const Chapter = () => {
+    const navigation = useNavigation();
+    const [activeButton, setActiveButton] = useState(null);
 
-// Capture Screen
-const Capture = ({ navigation }) => {
-    const [selectedMemory, setSelectedMemory] = useState(null);
+    const handlePress = (buttonName) => {
+        setActiveButton(buttonName);
+        if (buttonName === 'Chapter') {
+            navigation.navigate('Chapter'); // Navigate to Chapter screen
+        }
+        else if (buttonName === 'Charter') {
+            navigation.navigate('Charter');
+        }
+        else if (buttonName === 'Connect') {
+            navigation.navigate('Connect');
+        }
+    }
+};
 
-    const handleMemoryPress = (memory) => {
-        setSelectedMemory(memory);
-        // Navigate to a screen to display the selected memory (you can implement a dedicated media screen here)
-        // For now, it's just logged.
-        console.log('Selected memory:', memory);
+const getButtonImage = (buttonName) => {
+    switch (buttonName) {
+        case 'Charter':
+            return activeButton === 'Charter'
+                ? require('./assets/charteryellow.png')
+                : require('./assets/chartergrey.png');
+        case 'Chapter':
+            return activeButton === 'Chapter'
+                ? require('./assets/chapteryellow.png')
+                : require('./assets/chaptergrey.png');
+        case 'Capture':
+            return activeButton === 'Capture'
+                ? require('./assets/captureyellow.png')
+                : require('./assets/capturegrey.png');
+        case 'Connect':
+            return activeButton === 'Connect'
+                ? require('./assets/connectyellow.png')
+                : require('./assets/connectgrey.png');
+        case 'Plus':
+            return require('./assets/purpleplus.png');
+        default:
+            return null;
+    }
+};
+
+const MenuBar = () => {
+    const [activeButton, setActiveButton] = useState(null);
+    const [isSplashVisible, setIsSplashVisible] = useState(true); // For splash screen
+
+    useEffect(() => {
+        // Hide splash screen after 3 seconds
+        setTimeout(() => {
+            setIsSplashVisible(false);
+        }, 3000); // 3 seconds delay for splash screen
+    }, []);
+
+    const handlePress = (buttonName) => {
+        setActiveButton(buttonName);
+    };
+
+    const getButtonImage = (buttonName) => {
+        switch (buttonName) {
+            case 'Charter':
+                return activeButton === 'Charter'
+                    ? require('./assets/charteryellow.png')
+                    : require('./assets/chartergrey.png');
+            case 'Chapter':
+                return activeButton === 'Chapter'
+                    ? require('./assets/chapteryellow.png')
+                    : require('./assets/chaptergrey.png');
+            case 'Capture':
+                return activeButton === 'Capture'
+                    ? require('./assets/captureyellow.png')
+                    : require('./assets/capturegrey.png');
+            case 'Connect':
+                return activeButton === 'Connect'
+                    ? require('./assets/connectyellow.png')
+                    : require('./assets/connectgrey.png');
+            case 'Plus':
+                return require('./assets/purpleplus.png');
+            default:
+                return null;
+        }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Capture Memories</Text>
+            {/* Display Splash Screen */}
+            {isSplashVisible ? (
+                <View style={styles.splashContainer}>
+                    <Image
+                        source={require('./assets/Logo.png')} // Replace with your actual logo path
+                        style={styles.logoImage}
+                    />
+                </View>
+            ) : (
+                <View style={styles.mainContent}>
+                    {/* Main Content */}
+                    <View style={styles.mainContent}>
+                        {/* Additional content */}
+                    </View>
+
+                    {/* Horizontal Line above the menu bar */}
+                    <View style={styles.separator} />
+
+                    {/* Bottom Menu Bar */}
+                    <View style={styles.bottomMenu}>
+                        <TouchableOpacity style={styles.menuButton} onPress={() => handlePress('Charter')}>
+                            <Image source={getButtonImage('Charter')} style={styles.buttonImage} />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.menuButton} onPress={() => handlePress('Chapter')}>
+                            <Image source={getButtonImage('Chapter')} style={styles.buttonImage} />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.plusButton} onPress={() => handlePress('Plus')}>
+                            <Image source={getButtonImage('Plus')} style={styles.plusButtonImage} />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.menuButton} onPress={() => handlePress('Capture')}>
+                            <Image source={getButtonImage('Capture')} style={styles.buttonImage} />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.menuButton} onPress={() => handlePress('Connect')}>
+                            <Image source={getButtonImage('Connect')} style={styles.buttonImage} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            )}
+        </View>
+    );
+};
+const App = () => {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Chapter" component={Chapter} />
+                <Stack.Screen name="Charter" component={Charter} />
+                <Stack.Screen name="Connect" component={Connect} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+};
+
+const games = [
+    { id: "1", name: "Photo Recall", description: "Identify people and places in old photos." },
+    { id: "2", name: "Story Completion", description: "Fill in missing details of past events." },
+    { id: "3", name: "Memory Flashback", description: "Test your memory of past events." },
+];
+
+const Charter = ({ navigation }) => {
+    return (
+        <View style={styles.container}>
+            <Text style={styles.header}>AI Memory Games</Text>
             <FlatList
-                data={memories}
+                data={games}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <TouchableOpacity
-                        style={styles.memoryCard}
-                        onPress={() => handleMemoryPress(item)}
+                        style={styles.gameCard}
+                        onPress={() => navigation.navigate(item.name)}
                     >
-                        <View style={styles.memoryCardContent}>
-                            <Text style={styles.memoryLabel}>{item.name}</Text>
-                            <Ionicons name="play-circle" size={30} color="#4CAF50" />
-                        </View>
+                        <Text style={styles.title}>{item.name}</Text>
+                        <Text style={styles.description}>{item.description}</Text>
                     </TouchableOpacity>
                 )}
             />
@@ -45,11 +172,9 @@ const Capture = ({ navigation }) => {
     );
 };
 
-// Menu bar styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         padding: 20,
         backgroundColor: "#f5f5f5",
     },
@@ -57,38 +182,60 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
         marginBottom: 20,
+        marginTop: 90,
         textAlign: "center",
     },
-    memoryCard: {
+    gameCard: {
         backgroundColor: "#ffffff",
         padding: 15,
-        marginBottom: 15,
-        borderRadius: 12,
+        marginBottom: 10,
+        borderRadius: 8,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
         elevation: 5,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
     },
-    memoryCardContent: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '100%',
-    },
-    memoryLabel: {
+    title: {
         fontSize: 18,
         fontWeight: "bold",
     },
-    // Bottom menu styles
-    bottomMenu: {
-        flexDirection: 'row',
+    description: {
+        fontSize: 14,
+        color: "#666",
+    },
+
+    //Menu bar
+    container: {
+        flex: 1,
+        justifyContent: 'space-between',
+        padding: 10,
+    },
+    splashContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
+        flex: 1,  // Take up the whole screen for splash
+    },
+    logoImage: {
+        width: 150,  // Adjust the logo size
+        height: 150, // Adjust the logo size
+        resizeMode: 'contain',
+    },
+    mainContent: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    separator: {
+        height: 1,
+        backgroundColor: '#ccc', // Light grey color for the line
+        marginBottom: 10,  // Adjust space above the menu bar
+    },
+    bottomMenu: {
+        flexDirection: 'row',
+        justifyContent: 'center', // Center all buttons within the menu
+        alignItems: 'center',
+        width: '100%', // Ensures the menu takes the full width
         paddingHorizontal: 20,
         paddingBottom: 10,
     },
@@ -104,7 +251,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 2,
-        marginBottom: 10,
+        marginBottom: 10,  // Aligns the Plus button better vertically with other buttons
     },
     buttonImage: {
         width: 90,
@@ -112,23 +259,11 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     plusButtonImage: {
-        width: 130,
+        width: 130,  // Larger image size for Plus button
         height: 130,
         resizeMode: 'contain',
     },
 });
 
-// Navigation setup
-const Stack = createStackNavigator();
-const App = () => {
-    return (
-        <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Capture" component={Capture} />
-                {/* Other screens like Charter, Connect can be added here */}
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
-};
 
-export default App;
+export default Charter;
