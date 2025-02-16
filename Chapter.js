@@ -2,14 +2,23 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import Charter from './Charter';
+import Connect from './Connect';
+
 const Chapter = () => {
     const navigation = useNavigation();
     const [activeButton, setActiveButton] = useState(null);
 
     const handlePress = (buttonName) => {
         setActiveButton(buttonName);
-        if (buttonName === 'Home') {
-            navigation.navigate('Home');
+        if (buttonName === 'Chapter') {
+            navigation.navigate('Chapter'); // Navigate to Chapter screen
+        }
+        else if (buttonName === 'Charter') {
+            navigation.navigate('Charter');
+        }
+        else if (buttonName === 'Connect') {
+            navigation.navigate('Connect');
         }
     };
 
@@ -85,6 +94,19 @@ const Chapter = () => {
                 </TouchableOpacity>
             </View>
         </View>
+    );
+};
+
+const App = () => {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Chapter" component={Chapter} />
+                <Stack.Screen name="Charter" component={Charter} />
+                <Stack.Screen name="Connect" component={Connect} />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 };
 
