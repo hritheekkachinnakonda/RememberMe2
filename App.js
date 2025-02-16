@@ -7,6 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Chapter from './Chapter';
 import Charter from './Charter';
 import Connect from './Connect';
+import Capture from './Capture';
+
 const Stack = createStackNavigator();
 
 const HomeScreen = () => {
@@ -30,6 +32,9 @@ const HomeScreen = () => {
         }
         else if (buttonName === 'Connect') {
             navigation.navigate('Connect');
+        }
+        else if (buttonName === 'Capture') {
+            navigation.navigate('Capture');
         }
     };
 
@@ -68,7 +73,7 @@ const HomeScreen = () => {
                 <View style={styles.mainContent}>
                     {/* Home Page Section Above the Menu */}
                     <View style={styles.homePageContainer}>
-                        <Text style={styles.homePageText}>Welcome to MemoirAI</Text>
+                        <Text style={styles.homePageText}>Welcome to Remember Me</Text>
                         <Text style={styles.descriptionText}>Start capturing memories with your personalized journey</Text>
                     </View>
 
@@ -111,6 +116,7 @@ const App = () => {
                 <Stack.Screen name="Chapter" component={Chapter} />
                 <Stack.Screen name="Charter" component={Charter} />
                 <Stack.Screen name="Connect" component={Connect} />
+                <Stack.Screen name="Capture" component={Capture} />
             </Stack.Navigator>
         </NavigationContainer>
     );
