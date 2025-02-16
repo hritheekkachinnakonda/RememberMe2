@@ -3,9 +3,10 @@ import { View, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'r
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-// Import Chapter screen
-import Chapter from './Chapter'; // Ensure this file exists
+
+import Chapter from './Chapter';
 import Charter from './Charter';
+import Connect from './Connect';
 const Stack = createStackNavigator();
 
 const HomeScreen = () => {
@@ -26,6 +27,9 @@ const HomeScreen = () => {
         }
         else if (buttonName === 'Charter') {
             navigation.navigate('Charter');
+        }
+        else if (buttonName === 'Connect') {
+            navigation.navigate('Connect');
         }
     };
 
@@ -106,6 +110,7 @@ const App = () => {
                 <Stack.Screen name="Home" component={HomeScreen} />
                 <Stack.Screen name="Chapter" component={Chapter} />
                 <Stack.Screen name="Charter" component={Charter} />
+                <Stack.Screen name="Connect" component={Connect} />
             </Stack.Navigator>
         </NavigationContainer>
     );
